@@ -8,7 +8,8 @@ class TodoForm extends Component {
         <Row>
           <Col xs={10} lg={10} md={10}>
           <FormGroup controlId="formInlineName">
-            <FormControl type="text" placeholder="Jane Doe" />
+            <FormControl type="text" placeholder="Cadastrar nova tarefa" value={this.props.description} 
+              onChange={this.props.handleChange}/>
           </FormGroup>
           </Col>
           <Col xs={2} lg={2} md={2}>

@@ -7,28 +7,38 @@ import TodoForm from './todo_form'
 const URL = "http://localhost:8000/api/v1";
 
 class Todo extends Component {
-  
+
   constructor(props) {
     super(props)
-    this.state = {tasks: []}
+    this.state = {tasks: [], 'description': ''}
     this.refresh = this.refresh.bind(this)
     this.handleAdd = this.handleAdd.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     this.refresh()
   }
 
   refresh() {
     axios.get(URL+'/users/1/tasks')
-         .then(response => this.setState({tasks: response.data.data}))
+         .then(response => this.setState({description: '', tasks: response.data.data}))
+  }
+
+  handleChange(e) {
+    this.setState({...this.state, description: e.target.value})
   }
 
   handleAdd() {
-    console.log('clicado!')
+    const description = this.state.description
+    axios.post(URL+'/users/1/tasks', { description })
+      .then(response => this.refresh())
   }
 
   render() {
     return (
       <div>
-        <TodoForm handleAdd={this.handleAdd}/>
+        <TodoForm description={this.state.description} 
+        handleAdd={this.handleAdd}
+        handleChange={this.handleChange}
+        />
         <br />
         <TodoList tasks={this.state.tasks}/>
       </div>
