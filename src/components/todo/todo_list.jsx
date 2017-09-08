@@ -22,8 +22,14 @@ class TodoList extends Component {
         <td>{this.renderLabelDone(task.attributes.done)}</td>
         <td>
           <div className="btn-group">
-            <Button bsStyle='success' bsSize='small'>Concluído</Button>
-            <Button bsStyle='danger' bsSize='small'onClick={() => this.props.handleRemove(task)}>Excluir</Button>
+            <Button bsStyle='success' bsSize='small'
+              onClick={() => this.props.handleMarkAsDone(task)}>
+                Concluído
+            </Button>
+            <Button bsStyle='danger' bsSize='small'
+              onClick={() => this.props.handleRemove(task)}>
+                Excluir
+            </Button>
           </div>
         </td>
       </tr>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
+import api from '../../main/webserver'
 import TodoList from './todo_list'
 import TodoForm from './todo_form'
 
@@ -15,11 +16,12 @@ class Todo extends Component {
     this.handleAdd = this.handleAdd.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
+    this.handleMarkAsDone = this.handleMarkAsDone.bind(this)
     this.refresh()
   }
 
   refresh() {
-    axios.get(URL+'/users/1/tasks')
+    api.get('/users/1/tasks')
          .then(response => this.setState({description: '', tasks: response.data.data}))
   }
 
@@ -29,13 +31,18 @@ class Todo extends Component {
 
   handleAdd() {
     const description = this.state.description
-    axios.post(URL+'/users/1/tasks', { description })
+    api.post('/users/1/tasks', { description })
       .then(response => this.refresh())
   }
 
   handleRemove(task) {
-    axios.delete(URL+'/users/1/tasks/'+task.id)
+    api.delete('/users/1/tasks/'+task.id)
       .then(response => this.refresh())
+  }
+
+  handleMarkAsDone(task) {
+    api.put('/users/1/tasks/'+task.id, {task})
+    .then(response => this.refresh())
   }
 
   render() {
@@ -50,6 +57,7 @@ class Todo extends Component {
         <TodoList 
           tasks={this.state.tasks}
           handleRemove={this.handleRemove}
+          handleMarkAsDone={this.handleMarkAsDone}
         />
       </div>
     )

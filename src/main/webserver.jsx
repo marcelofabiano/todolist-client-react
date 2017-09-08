@@ -5,7 +5,6 @@ const webserver = axios.create({
   timeout: 1000,
   headers: {
     'Accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded'
   }
 });
 
