@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Button } from 'react-bootstrap'
 
 class TodoList extends Component {
   constructor(props) {
@@ -19,7 +20,12 @@ class TodoList extends Component {
       <tr key={task.id}>
         <td>{task.attributes.description}</td>
         <td>{this.renderLabelDone(task.attributes.done)}</td>
-        <td></td>
+        <td>
+          <div className="btn-group">
+            <Button bsStyle='success' bsSize='small'>Concluído</Button>
+            <Button bsStyle='danger' bsSize='small'onClick={() => this.props.handleRemove(task)}>Excluir</Button>
+          </div>
+        </td>
       </tr>
     ))
   }

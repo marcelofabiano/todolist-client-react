@@ -13,7 +13,7 @@ class TodoForm extends Component {
           </FormGroup>
           </Col>
           <Col xs={2} lg={2} md={2}>
-            <Button bsStyle="success" onClick={this.props.handleAdd}>
+            <Button bsStyle="primary" onClick={this.props.handleAdd}>
               Salvar
             </Button>
           </Col>

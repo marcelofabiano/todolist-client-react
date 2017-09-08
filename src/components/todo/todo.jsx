@@ -14,6 +14,7 @@ class Todo extends Component {
     this.refresh = this.refresh.bind(this)
     this.handleAdd = this.handleAdd.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleRemove = this.handleRemove.bind(this)
     this.refresh()
   }
 
@@ -32,15 +33,24 @@ class Todo extends Component {
       .then(response => this.refresh())
   }
 
+  handleRemove(task) {
+    axios.delete(URL+'/users/1/tasks/'+task.id)
+      .then(response => this.refresh())
+  }
+
   render() {
     return (
       <div>
-        <TodoForm description={this.state.description} 
-        handleAdd={this.handleAdd}
-        handleChange={this.handleChange}
+        <TodoForm 
+          description={this.state.description} 
+          handleAdd={this.handleAdd}
+          handleChange={this.handleChange}
         />
         <br />
-        <TodoList tasks={this.state.tasks}/>
+        <TodoList 
+          tasks={this.state.tasks}
+          handleRemove={this.handleRemove}
+        />
       </div>
     )
   }
