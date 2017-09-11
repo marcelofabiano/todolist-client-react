@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 
+import DoneOrNotDone from './actions/todo_done_or_not_done'
+import RemoveTask from './actions/todo_remove'
+
 class TodoList extends Component {
   constructor(props) {
     super(props)
@@ -22,14 +25,15 @@ class TodoList extends Component {
         <td>{this.renderLabelDone(task.attributes.done)}</td>
         <td>
           <div className="btn-group">
-            <Button bsStyle='success' bsSize='small'
-              onClick={() => this.props.handleMarkAsDone(task)}>
-                Concluído
-            </Button>
-            <Button bsStyle='danger' bsSize='small'
-              onClick={() => this.props.handleRemove(task)}>
-                Excluir
-            </Button>
+            <DoneOrNotDone 
+              task={task} 
+              handleMarkAsDone={this.props.handleMarkAsDone}
+              handleMarkNotDone={this.props.handleMarkNotDone}
+            />
+            <RemoveTask 
+              task={task}
+              handleRemove={this.props.handleRemove}
+            />
           </div>
         </td>
       </tr>

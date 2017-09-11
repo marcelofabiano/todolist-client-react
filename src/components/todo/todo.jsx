@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 
 import api from '../../main/webserver'
 import TodoList from './todo_list'
 import TodoForm from './todo_form'
-
-const URL = "http://localhost:8000/api/v1";
 
 class Todo extends Component {
 
@@ -17,6 +14,7 @@ class Todo extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.handleMarkAsDone = this.handleMarkAsDone.bind(this)
+    this.handleMarkNotDone = this.handleMarkNotDone.bind(this)
     this.refresh()
   }
 
@@ -36,12 +34,17 @@ class Todo extends Component {
   }
 
   handleRemove(task) {
-    api.delete('/users/1/tasks/'+task.id)
+    api.delete(`/users/1/tasks/${task.id}`)
       .then(response => this.refresh())
   }
 
   handleMarkAsDone(task) {
-    api.put('/users/1/tasks/'+task.id, {task})
+    api.put(`/users/1/tasks/${task.id}`, {...task.attributes, done: true})
+    .then(response => this.refresh())
+  }
+
+  handleMarkNotDone(task) {
+    api.put(`/users/1/tasks/${task.id}`, {...task.attributes, done: false})
     .then(response => this.refresh())
   }
 
@@ -58,6 +61,7 @@ class Todo extends Component {
           tasks={this.state.tasks}
           handleRemove={this.handleRemove}
           handleMarkAsDone={this.handleMarkAsDone}
+          handleMarkNotDone={this.handleMarkNotDone}
         />
       </div>
     )
