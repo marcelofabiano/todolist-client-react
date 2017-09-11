@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
 
 import DoneOrNotDone from './actions/todo_done_or_not_done'
 import RemoveTask from './actions/todo_remove'

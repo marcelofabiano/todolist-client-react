@@ -10,6 +10,8 @@ class Todo extends Component {
     super(props)
     this.state = {tasks: [], 'description': ''}
     this.refresh = this.refresh.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
+    this.handleClearSearch = this.handleClearSearch.bind(this)
     this.handleAdd = this.handleAdd.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
@@ -18,9 +20,18 @@ class Todo extends Component {
     this.refresh()
   }
 
-  refresh() {
-    api.get('/users/1/tasks')
-         .then(response => this.setState({description: '', tasks: response.data.data}))
+  refresh(description = '') {
+    let search = description ? `?search=${description}` : ''
+    api.get(`/users/1/tasks${search}`)
+         .then(response => this.setState({description, tasks: response.data.data}))
+  }
+
+  handleSearch() {
+    this.refresh(this.state.description)
+  }
+
+  handleClearSearch() {
+    this.refresh('')
   }
 
   handleChange(e) {
@@ -35,17 +46,17 @@ class Todo extends Component {
 
   handleRemove(task) {
     api.delete(`/users/1/tasks/${task.id}`)
-      .then(response => this.refresh())
+      .then(response => this.refresh(this.state.description))
   }
 
   handleMarkAsDone(task) {
     api.put(`/users/1/tasks/${task.id}`, {...task.attributes, done: true})
-    .then(response => this.refresh())
+    .then(response => this.refresh(this.state.description))
   }
 
   handleMarkNotDone(task) {
     api.put(`/users/1/tasks/${task.id}`, {...task.attributes, done: false})
-    .then(response => this.refresh())
+    .then(response => this.refresh(this.state.description))
   }
 
   render() {
@@ -55,6 +66,8 @@ class Todo extends Component {
           description={this.state.description} 
           handleAdd={this.handleAdd}
           handleChange={this.handleChange}
+          handleSearch={this.handleSearch}
+          handleClearSearch={this.handleClearSearch}
         />
         <br />
         <TodoList 
